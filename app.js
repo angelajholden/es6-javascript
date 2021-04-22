@@ -1,3 +1,32 @@
+// ES6 and ES2015 are the same thing
+
+// The ES6 code we write is converted by Babel into ES5 code
+
+// It's assumed that ES5 is the standard that's safe to run in everyone's browser across the world
+
+// Array helper Methods (higher order functions) are meant to replace the old school for loops
+
+var colors = ["red", "blue", "green"];
+
+// These are the same!
+// Same number of characters, but less logic and easier to read and understand
+
+for (var i = 0; i < colors.length; i++) {
+	console.log(colors[i]);
+}
+
+colors.forEach(function (color) {
+	console.log(color);
+});
+
+// Create an array of numbers
+
+// Create a variable to hold the sum
+
+// Loop over the array, incrementing the sum varialbe
+
+// print the sum variable
+
 // FOREACH HELPER
 
 // Create an array of numbers
@@ -223,3 +252,195 @@ var lessThanFifteen = reject(numbers, function (number) {
 
 // print the result
 console.log(lessThanFifteen);
+
+// FIND HELPER
+
+var users = [{ name: "Jill" }, { name: "Alex" }, { name: "Bill" }];
+
+var user;
+
+for (var i = 0; i > users.length; i++) {
+	if (users[i].name === "Alex") {
+		user = users[i];
+		// once we find our user, stop the loop
+		break;
+	}
+}
+
+console.log(user);
+
+// using the find helper instead of the for loop
+// don't forget to return or result is undefined
+// find the first instance in the iteration
+users.find(function (user) {
+	return user.name === "Alex";
+});
+
+// example of using the find helper
+
+function Car(model) {
+	this.model = model;
+}
+
+var cars = [new Car("Buick"), new Car("Camaro"), new Car("Focus")];
+
+cars.find(function (car) {
+	return car.model === "Focus";
+});
+
+// more complex example of using the find helper
+
+var posts = [
+	{ id: 1, title: "New Post" },
+	{ id: 2, title: "Old Post" },
+];
+
+var comment = { postId: 1, content: "Great Post" };
+
+function postForComment(posts, comment) {
+	return posts.find(function (post) {
+		return post.id === comment.postId;
+	});
+}
+
+postForComment(posts, comment);
+
+// Find the user in the user's array who is an admin. Assign this userr to the variable 'admin'.
+
+var users = [
+	{ id: 1, admin: false },
+	{ id: 2, admin: false },
+	{ id: 3, admin: true },
+];
+
+var admin = users.find(function (user) {
+	return user.admin === true;
+});
+
+// Find the account with a balance of 12 and assign it to the variable 'account'.
+
+var accounts = [{ balance: -10 }, { balance: 12 }, { balance: 0 }];
+
+var account = accounts.find(function (account) {
+	return account.balance === 12;
+});
+
+// The most common find operation is to find an object that has a given property.
+// Rather than writing out a full function every time, it would be great if we had a shorthand syntax to find an object like this:
+
+findWhere(ladders, { height: "20 feet" });
+
+// The object:
+
+{
+	height: "20 feet";
+}
+
+// should be used as the search criteria - we would want to find a ladder whose 'height' property was '20 feet'.
+// The goal: Write a 'findWhere' function that achieves this shorthand approach.
+// 'findWhere' should return the found object.
+// In summary:
+
+var ladders = [
+	{ id: 1, height: 20 },
+	{ id: 3, height: 25 },
+];
+
+findWhere(ladders, { height: 25 }); // result: {id:3, height:25}
+
+// Hint: the hard part of this is figuring out the name of the property on the criteria.
+// You can use
+
+Object.keys(criteria)[0];
+
+// to figure out the name of the property on the object.
+// For example,
+
+Object.keys({ height: "20 feets" });
+
+// would return 'height'.
+// You could then check to see if a given element in the array had a property equal to the criteria's value with something like
+
+element[property] === criteria[property];
+
+// Solution
+
+var ladders = [
+	{ id: 1, height: 20 },
+	{ id: 3, height: 25 },
+];
+
+function findWhere(array, criteria) {
+	var propertyName = Object.keys(criteria)[0];
+	return array.find(function (item) {
+		return item[propertyName] === criteria[propertyName];
+	});
+}
+
+findWhere(ladders, { height: 20 });
+
+// EVERY AND SOME HELPERS
+
+var computers = [
+	{ name: "Apple", ram: 24 },
+	{ name: "Compaq", ram: 4 },
+	{ name: "Acer", ram: 32 },
+];
+
+// true by default
+var allComputersCanRunProgram = true;
+
+// false by default
+var onlySomeComputersCanRunProgram = false;
+
+for (var i = 0; i < computers.length; i++) {
+	var computer = computers[i];
+
+	if (computer.ram < 16) {
+		// if less than 16 ram, false
+		allComputersCanRunProgram = false;
+	} else {
+		// if anything over 16 ram, true
+		onlySomeComputersCanRunProgram = true;
+	}
+}
+
+// EVERY HELPER
+
+// check to see if every computer has at least 16 ram
+// if not all, then returns false
+computers.every(function (computer) {
+	return computer.ram > 16; // false
+});
+
+// SOME HELPER
+// Do any values in the array satisfy the criteria?
+// If yes to at least one, returns true
+
+computers.some(function (computer) {
+	return computer.ram > 16; // true
+});
+
+var names = ["Alexandria", "Matthew", "Joe"];
+
+names.every(function (name) {
+	return name.length > 4; // false
+});
+
+names.some(function (name) {
+	return name.length > 4; // true
+});
+
+// Every helper example
+
+var fields = [username, password, birthdate];
+
+var formIsValid = fields.every(function (field) {
+	return field.validate;
+});
+
+if (formIsValid) {
+	// allow user to submit
+} else {
+	// show an error
+}

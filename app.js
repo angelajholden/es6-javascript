@@ -4,6 +4,29 @@
 
 // It's assumed that ES5 is the standard that's safe to run in everyone's browser across the world
 
+// CONST & LET
+
+// Do I expact this value or varialbe to be changed in the future?
+// const is not expected to change
+// let is expected to change
+
+// ES5
+
+var name = "Jane";
+var title = "Software Engineer";
+var hourlyWage = 40;
+
+// ES6
+
+const name = "Jane";
+let title = "Software Engineer";
+let hourlyWage = 40;
+
+// sometime later
+
+title = "Senior Software Engineer";
+hourlyWage = 45;
+
 // Array helper Methods (higher order functions) are meant to replace the old school for loops
 
 var colors = ["red", "blue", "green"];
@@ -20,11 +43,8 @@ colors.forEach(function (color) {
 });
 
 // Create an array of numbers
-
 // Create a variable to hold the sum
-
 // Loop over the array, incrementing the sum varialbe
-
 // print the sum variable
 
 // FOREACH HELPER
@@ -539,7 +559,7 @@ function balancedParens(string) {
 	}, 0);
 }
 
-balancedParens("((((");
+balancedParens("(((("); // false
 
 // Distance Traveled
 
@@ -578,3 +598,119 @@ var deskTypes = desks.reduce(
 );
 
 deskTypes;
+
+var numbers = [1, 1, 2, 3, 4, 4];
+
+function unique(array) {
+	// iterate through array
+	return array.reduce(function (previous, current) {
+		// check if number coming into array exists previously in the accumulator, and if so do nothing, if not add to accumulator
+		previous.find((previousValue) => current === previousValue) ? previous : previous.push(current);
+
+		// previous.find(function (previousValue) {
+		// 	if (current === previousValue) {
+		// 		return true;
+		// 	} else if (previous) {
+		// 		return previous.push(current);
+		// 	}
+		// });
+
+		return previous;
+	}, []);
+}
+unique(numbers);
+
+// without comments
+// function unique(array) {
+// 	return array.reduce(function (acc, number) {
+// 		acc.find((previousValue) => number === previousValue) ? acc : acc.push(number);
+// 		return acc;
+// 	}, []);
+// }
+
+// ARROW FUNCTIONS
+
+// full meal deal
+const add = function (a, b) {
+	return a + b;
+};
+add(1, 2);
+
+// fat arrow; remove the function keyword
+const add = (a, b) => {
+	return a + b;
+};
+add(1, 2);
+
+// remove {} and return keyword; implicit return of the function
+// one expression - we do not have to use {}
+const add = (a, b) => a + b;
+add(1, 2);
+
+// more fat arrow functions
+const double = function (number) {
+	return 2 * number;
+};
+
+double(8);
+
+// if function has single argument, can also remove ()
+// const double = number => 2 * number;
+
+// when to use fat arrow functions
+// this is not equal to team in this case
+
+const team = {
+	members: ["Jane", "Bill"],
+	teamName: "Super Squad",
+	teamSummary: function () {
+		// without fat arrow function
+		return this.members.map(function (member) {
+			return `${member} is on team ${this.teamName}`;
+		});
+	},
+};
+team.teamSummary(); // TypeError: Cannot read property 'teamName' of undefined
+
+// fat arrow functions make use of 'lexial this'
+// this === team
+
+const team = {
+	members: ["Jane", "Bill"],
+	teamName: "Super Squad",
+	teamSummary: function () {
+		// with fat arrow function
+		return this.members.map((member) => {
+			return `${member} is on team ${this.teamName}`;
+		});
+	},
+};
+team.teamSummary();
+
+// ENHANCED OBJECT LITERALS
+
+// when we have 'key: value' pairs that match, they can be condensed to a 'key'
+// when we have 'key's, they fall to the left, or beginning
+// 'key: value' pairs that are not condensed fall to the far right, or end
+
+function creatBookShop(inventory) {
+	return {
+		// inventory: inventory, -- omit value and : when key/value match
+		inventory,
+		// inventoryValue: function () { -- omit : and function keyword
+		inventoryValue() {
+			return this.inventory.reduce((total, book) => total + book.price, 0);
+		},
+		// priceForTitle: function (title) { -- omit : and function keyword
+		priceForTitle(title) {
+			return this.inventory.find((book) => book.title === title).price;
+		},
+	};
+}
+
+const inventory = [
+	{ title: "Harry Potter", price: 10 },
+	{ title: "Eloquent JavaScript", price: 15 },
+];
+
+const bookShop = createBookShop(inventory);

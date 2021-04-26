@@ -27,6 +27,7 @@ let hourlyWage = 40;
 title = "Senior Software Engineer";
 hourlyWage = 45;
 
+// FOREACH HELPER
 // Array helper Methods (higher order functions) are meant to replace the old school for loops
 
 var colors = ["red", "blue", "green"];
@@ -46,8 +47,6 @@ colors.forEach(function (color) {
 // Create a variable to hold the sum
 // Loop over the array, incrementing the sum varialbe
 // print the sum variable
-
-// FOREACH HELPER
 
 // Create an array of numbers
 var numbers = [1, 2, 3, 4, 5];
